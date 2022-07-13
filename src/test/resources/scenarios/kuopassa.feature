@@ -20,3 +20,24 @@ Feature: Kuopassa functionally
       | 1                  |
       | 2                  |
 
+    Scenario: Check quantity of product and price
+      Given User opens home page
+      When Get product list
+      And Check quantity equals expected
+      Then Check that minimal quantity of product has expected price
+
+  Scenario: Check availability purchased goods in cart
+    Given User opens home page
+    When Get first product
+    And Get title and price first product
+    And Add product to cart
+    And Open cart
+    Then Check this product in the cart
+
+  Scenario: Check filter of product by price
+    Given User on filter page
+    When User sees no filter price of product and click on filter by price
+    Then User sees that products are filtered by price
+
+
+

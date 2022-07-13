@@ -2,10 +2,7 @@ package manager;
 
 
 import org.openqa.selenium.WebDriver;
-import pages.CustomerServicePage;
-import pages.HomePage;
-import pages.ProductPage;
-import pages.SearchPage;
+import pages.*;
 
 public class PageFactoryManager {
 
@@ -32,5 +29,11 @@ public class PageFactoryManager {
     public SearchPage getSearchPage() {
 
         return new SearchPage(driver);
+    }
+    public ShoppingCartPage getShoppingCartPage() {
+        return new ShoppingCartPage(driver);
+    }
+    public FilterPage getFilterPage() {
+        return new FilterPage(driver);
     }
 }

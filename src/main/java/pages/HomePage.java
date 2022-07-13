@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomePage extends BasePage {
 
     private static final long DEFAULT_TIMEOUT = 60;
@@ -41,6 +44,19 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@title='Purple Duck']")
     private WebElement purpleDuck;
 
+    @FindBy (xpath = "//div[@id='box-popular-products']//div[@class='product column shadow hover-light']")
+    private List<WebElement> productList;
+
+    @FindBy (xpath = "//div[@id='box-popular-products']//span[@class='price']")
+    private List<WebElement> priceList;
+
+    @FindBy (xpath = "//h1[@class=\'title\']")
+    private WebElement titleProduct;
+
+    @FindBy (xpath = "//*[@id=\'box-product\']/div[1]/div[3]/div[2]/span")
+    private WebElement priceProduct;
+
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -60,6 +76,38 @@ public class HomePage extends BasePage {
 
     public void clickOnLogotip() {
         logotip.click();
+    }
+
+    public int getSizeOfProductList(){
+        int size=productList.size();
+        return size;
+    }
+    public List getList(){
+        List<WebElement> product=productList;
+        return  product;
+    }
+    public WebElement getFirst(){
+        WebElement first=productList.get(0);
+        return first;
+    }
+    public void clickOnFirst(){
+        WebElement first=productList.get(0);
+        first.click();
+    }
+    public String getTitle(){
+        String title=titleProduct.getText();
+        return title;
+    }
+    public String getPrice(){
+        String price=priceProduct.getText();
+        return price;
+    }
+    public List<String> getListOfPrice() {
+        ArrayList<String> price = new ArrayList<String>();
+        for (int i = 0; i < priceList.size(); i++) {
+            price.add(priceList.get(i).getText());
+        }
+        return price;
     }
 
 

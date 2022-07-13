@@ -6,7 +6,7 @@ import io.cucumber.java.Before;
 public class CucumberHooks {
     @After(order = 0)
     public void afterScenario() {
-        System.out.println("Tsis will run after the Scenario");
+        System.out.println("This will run after the Scenario");
     }
 
     @Before(order = 0)
