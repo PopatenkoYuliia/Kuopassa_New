@@ -44,16 +44,16 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@title='Purple Duck']")
     private WebElement purpleDuck;
 
-    @FindBy (xpath = "//div[@id='box-popular-products']//div[@class='product column shadow hover-light']")
+    @FindBy(xpath = "//div[@id='box-popular-products']//div[@class='product column shadow hover-light']")
     private List<WebElement> productList;
 
-    @FindBy (xpath = "//div[@id='box-popular-products']//span[@class='price']")
+    @FindBy(xpath = "//div[@id='box-popular-products']//span[@class='price']")
     private List<WebElement> priceList;
 
-    @FindBy (xpath = "//h1[@class=\'title\']")
+    @FindBy(xpath = "//h1[@class='title']")
     private WebElement titleProduct;
 
-    @FindBy (xpath = "//*[@id=\'box-product\']/div[1]/div[3]/div[2]/span")
+    @FindBy(xpath = "//*[@id='box-product']/div[1]/div[3]/div[2]/span")
     private WebElement priceProduct;
 
 
@@ -78,30 +78,36 @@ public class HomePage extends BasePage {
         logotip.click();
     }
 
-    public int getSizeOfProductList(){
-        int size=productList.size();
+    public int getSizeOfProductList() {
+        int size = productList.size();
         return size;
     }
-    public List getList(){
-        List<WebElement> product=productList;
-        return  product;
+
+    public List getList() {
+        List<WebElement> product = productList;
+        return product;
     }
-    public WebElement getFirst(){
-        WebElement first=productList.get(0);
+
+    public WebElement getFirst() {
+        WebElement first = productList.get(0);
         return first;
     }
-    public void clickOnFirst(){
-        WebElement first=productList.get(0);
+
+    public void clickOnFirst() {
+        WebElement first = productList.get(0);
         first.click();
     }
-    public String getTitle(){
-        String title=titleProduct.getText();
+
+    public String getTitle() {
+        String title = titleProduct.getText();
         return title;
     }
-    public String getPrice(){
-        String price=priceProduct.getText();
+
+    public String getPrice() {
+        String price = priceProduct.getText();
         return price;
     }
+
     public List<String> getListOfPrice() {
         ArrayList<String> price = new ArrayList<String>();
         for (int i = 0; i < priceList.size(); i++) {

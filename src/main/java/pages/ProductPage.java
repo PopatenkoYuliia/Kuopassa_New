@@ -39,7 +39,7 @@ public class ProductPage extends BasePage {
     }
 
     public String getShoppingCartText() throws InterruptedException {
-        waitVisibilityOfElement(60,shoppingCart);
+        waitVisibilityOfElement(60, shoppingCart);
         waitForPageLoadComplete(60);
         Thread.sleep(600);
         String scText = shoppingCart.getText();
@@ -50,7 +50,7 @@ public class ProductPage extends BasePage {
         linkCustomerService.click();
     }
 
-    public void clickOnCart(){
+    public void clickOnCart() {
         shoppingCart.click();
     }
 

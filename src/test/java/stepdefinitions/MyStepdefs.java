@@ -14,21 +14,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static org.junit.Assert.assertTrue;
 
 public class MyStepdefs {
 
-    public static final String KUOPASSA_URL = "http://kuopassa.net/litecart";
-    private static final long DEFAULT_TIMEOUT = 60;
-    private static final String EXP_TITLE_CUSTOMER_SERVICE = "Customer Service";
     public static int actualSizeOfProductList;
     public static String titleOfFirstProduct;
     public static String priceOfFirstProduct;
-    public static ArrayList<String> noFilter;
+
     WebDriver driver;
     HomePage homePage;
     BasePage basePage;
@@ -37,7 +33,6 @@ public class MyStepdefs {
     SearchPage searchPage;
     ShoppingCartPage shoppingCartPage;
     FilterPage filterPage;
-
     PageFactoryManager pageFactoryManager;
 
 
@@ -69,7 +64,7 @@ public class MyStepdefs {
     @Then("The user sees new page with title Customer Service")
     public void theUserSeesNewPageWithTitleCustomerService() {
         String actualTitle = driver.getTitle();
-        Assert.assertTrue(actualTitle.contains(EXP_TITLE_CUSTOMER_SERVICE));
+        Assert.assertTrue(actualTitle.contains(Constants.EXP_TITLE_CUSTOMER_SERVICE));
     }
 
     @Given("User opens {string} page")
@@ -78,9 +73,6 @@ public class MyStepdefs {
         homePage.openHomePage(url);
     }
 
-    @When("User click on first product")
-    public void userClickOnFirstProduct() {
-    }
 
     @When("User click on purple duck")
     public void userClickOnPurpleDuck() {
@@ -111,8 +103,8 @@ public class MyStepdefs {
 
     @And("Check quantity equals expected")
     public void checkQuantityEqualsExpected() {
-        actualSizeOfProductList=homePage.getSizeOfProductList();
-        Assert.assertEquals(Constants.EXP_PRODUCT_LIST_SIZE,actualSizeOfProductList);
+        actualSizeOfProductList = homePage.getSizeOfProductList();
+        Assert.assertEquals(Constants.EXP_PRODUCT_LIST_SIZE, actualSizeOfProductList);
     }
 
     @Then("Check that minimal quantity of product has expected price")
@@ -128,20 +120,20 @@ public class MyStepdefs {
 
     @When("Get first product")
     public void getFirstProduct() {
-     homePage.clickOnFirst();
+        homePage.clickOnFirst();
     }
 
     @Then("Get title and price first product")
     public void getTitleAndPriceFirstProduct() {
-        titleOfFirstProduct= homePage.getTitle();
-        priceOfFirstProduct= homePage.getPrice();
+        titleOfFirstProduct = homePage.getTitle();
+        priceOfFirstProduct = homePage.getPrice();
         System.out.println(titleOfFirstProduct);
         System.out.println(priceOfFirstProduct);
     }
 
     @And("Add product to cart")
     public void addProductToCart() throws InterruptedException {
-        productPage=pageFactoryManager.getProductPage();
+        productPage = pageFactoryManager.getProductPage();
         productPage.clickAddToCartButton();
     }
 
@@ -152,43 +144,35 @@ public class MyStepdefs {
 
     @Then("Check this product in the cart")
     public void checkThisProductInTheCart() {
-        shoppingCartPage=pageFactoryManager.getShoppingCartPage();
-        String textOfItem=shoppingCartPage.getTextItem();
+        shoppingCartPage = pageFactoryManager.getShoppingCartPage();
+        String textOfItem = shoppingCartPage.getTextItem();
         Assert.assertTrue(textOfItem.contains(titleOfFirstProduct));
         Assert.assertTrue(textOfItem.contains(priceOfFirstProduct));
     }
 
     @Given("User on filter page")
     public void userOnFilterPage() {
-       filterPage=pageFactoryManager.getFilterPage();
-       filterPage.openFilterPage(Constants.KUOPASSA_FILTER_URL);
+        filterPage = pageFactoryManager.getFilterPage();
+        filterPage.openFilterPage(Constants.KUOPASSA_FILTER_URL);
     }
 
     @When("User click on filter by price")
     public void userClickOnFilterByPrice() {
         filterPage.clickOnFilterByPrice();
     }
-    @And("User sees no filter price of product")
-    public void userSeesNoFilterPriceOfProduct() {
-        ArrayList<String> noFilter=filterPage.getListOfPrice();
-        System.out.println(noFilter);
-    }
 
-    @Then("User sees that products are filtered by price")
-    public void userSeesThatProductsAreFilteredByPrice() {
-        ArrayList<String> noFilter=filterPage.getListOfPrice();
-        filterPage.clickOnFilterByPrice();
-        ArrayList<String> filterByPrice=filterPage.getListOfPrice();
-        List<String> sortedNoFilterList=noFilter.stream().sorted().collect(Collectors.toList());
-        Assert.assertTrue(filterByPrice.equals(sortedNoFilterList));
-        System.out.println(noFilter);
-        System.out.println(filterByPrice);
-
-    }
-
-
-    @When("User sees no filter price of product and click on filter by price")
-    public void userSeesNoFilterPriceOfProductAndClickOnFilterByPrice() {
+    @Then("User sees that products are filtered")
+    public void userSeesThatProductsAreFiltered() {
+        String priceString;
+        double oldPrice = 0;
+        double priceOfProduct;
+        for (WebElement price : filterPage.getListOfProduct()
+        ) {
+            priceString = price.getText().split(" ")[0].substring(1);
+            priceOfProduct = Double.parseDouble(priceString.replace(',', '.'));
+            assertTrue(priceOfProduct >= oldPrice);
+            oldPrice = priceOfProduct;
+        }
     }
 }
 

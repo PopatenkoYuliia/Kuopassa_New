@@ -30,9 +30,11 @@ public class PageFactoryManager {
 
         return new SearchPage(driver);
     }
+
     public ShoppingCartPage getShoppingCartPage() {
         return new ShoppingCartPage(driver);
     }
+
     public FilterPage getFilterPage() {
         return new FilterPage(driver);
     }
