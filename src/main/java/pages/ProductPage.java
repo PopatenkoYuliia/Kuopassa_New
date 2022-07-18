@@ -28,9 +28,9 @@ public class ProductPage extends BasePage {
         logotip.click();
     }
 
-    public void clickAddToCartButton() {
+    public void clickAddToCartButton() throws InterruptedException {
         buttonAddToCart.click();
-        waitVisibilityOfElement(60,shoppingCart);
+        Thread.sleep(1000);
     }
 
     public void setInputQuantityProduct(final String quantity) {
@@ -39,7 +39,7 @@ public class ProductPage extends BasePage {
     }
 
     public String getShoppingCartText() throws InterruptedException {
-        waitVisibilityOfElement(60,shoppingCart);
+        waitVisibilityOfElement(60, shoppingCart);
         waitForPageLoadComplete(60);
         Thread.sleep(600);
         String scText = shoppingCart.getText();
@@ -48,6 +48,10 @@ public class ProductPage extends BasePage {
 
     public void clickOnCustomerServiceLink() {
         linkCustomerService.click();
+    }
+
+    public void clickOnCart() {
+        shoppingCart.click();
     }
 
 }

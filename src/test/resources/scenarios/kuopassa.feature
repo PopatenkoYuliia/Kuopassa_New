@@ -16,7 +16,27 @@ Feature: Kuopassa functionally
     And User clicks add to cart
     Then The user sees '<quantity of product>'in shopping cart
     Examples:
-      | quantity of product|
-      | 1                  |
-      | 2                  |
+      | quantity of product |
+      | 1                   |
+      | 2                   |
+
+  Scenario: Check quantity of product and price
+    Given User opens home page
+    When Get product list
+    And Check quantity equals expected
+    Then Check that minimal quantity of product has expected price
+
+  Scenario: Check availability purchased goods in cart
+    Given User opens home page
+    When Get first product
+    And Get title and price first product
+    And Add product to cart
+    And Open cart
+    Then Check this product in the cart
+
+  Scenario: Check filter of product by price new
+    Given User on filter page
+    When User click on filter by price
+    Then User sees that products are filtered
+
 

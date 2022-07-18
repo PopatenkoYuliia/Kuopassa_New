@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -51,15 +49,15 @@ public class BasePage {
         HOME_PAGE("http://kuopassa.net/litecart/en/");
 
 
-        private String name;
+        private final String name;
+
+        PagesName(String name) {
+            this.name = name;
+        }
 
         @Override
         public String toString() {
             return name;
-        }
-
-        PagesName(String name) {
-            this.name = name;
         }
 
         public String getName() {
