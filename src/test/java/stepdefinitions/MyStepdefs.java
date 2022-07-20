@@ -17,13 +17,14 @@ import pages.*;
 import java.util.List;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class MyStepdefs {
 
     public static int actualSizeOfProductList;
-    public static String titleOfFirstProduct;
-    public static String priceOfFirstProduct;
+    public static String titleOfProduct;
+    public static String priceOfProduct;
 
     WebDriver driver;
     HomePage homePage;
@@ -64,7 +65,7 @@ public class MyStepdefs {
     @Then("The user sees new page with title Customer Service")
     public void theUserSeesNewPageWithTitleCustomerService() {
         String actualTitle = driver.getTitle();
-        Assert.assertTrue(actualTitle.contains(Constants.EXP_TITLE_CUSTOMER_SERVICE));
+        assertTrue("", actualTitle.contains(Constants.EXP_TITLE_CUSTOMER_SERVICE));
     }
 
     @Given("User opens {string} page")
@@ -93,7 +94,7 @@ public class MyStepdefs {
     @Then("The user sees {string}in shopping cart")
     public void theUserSeesOneProductInShoppingCart(final String EXP_Q) throws InterruptedException {
         String amountOfProduct = productPage.getShoppingCartText();
-        org.junit.Assert.assertEquals(EXP_Q, amountOfProduct);
+        assertEquals("", EXP_Q, amountOfProduct);
     }
 
     @When("Get product list")
@@ -104,7 +105,7 @@ public class MyStepdefs {
     @And("Check quantity equals expected")
     public void checkQuantityEqualsExpected() {
         actualSizeOfProductList = homePage.getSizeOfProductList();
-        Assert.assertEquals(Constants.EXP_PRODUCT_LIST_SIZE, actualSizeOfProductList);
+        Assert.assertEquals("Expected number of products '%s' but actual is '%s'", Constants.EXP_PRODUCT_LIST_SIZE, actualSizeOfProductList);
     }
 
     @Then("Check that minimal quantity of product has expected price")
@@ -115,20 +116,15 @@ public class MyStepdefs {
         ) {
             if (p.contains(Constants.EXP_PRICE)) expPrice++;
         }
-        Assert.assertTrue(expPrice >= 2);
+        assertTrue("The given quantity of the product does not correspond to the specification", expPrice >= 2);
     }
 
-    @When("Get first product")
-    public void getFirstProduct() {
-        homePage.clickOnFirst();
-    }
-
-    @Then("Get title and price first product")
+    @Then("Get title and price of product")
     public void getTitleAndPriceFirstProduct() {
-        titleOfFirstProduct = homePage.getTitle();
-        priceOfFirstProduct = homePage.getPrice();
-        System.out.println(titleOfFirstProduct);
-        System.out.println(priceOfFirstProduct);
+        titleOfProduct = homePage.getTitle();
+        priceOfProduct = homePage.getPrice();
+        System.out.println(titleOfProduct);
+        System.out.println(priceOfProduct);
     }
 
     @And("Add product to cart")
@@ -146,8 +142,8 @@ public class MyStepdefs {
     public void checkThisProductInTheCart() {
         shoppingCartPage = pageFactoryManager.getShoppingCartPage();
         String textOfItem = shoppingCartPage.getTextItem();
-        Assert.assertTrue(textOfItem.contains(titleOfFirstProduct));
-        Assert.assertTrue(textOfItem.contains(priceOfFirstProduct));
+        Assert.assertTrue("Title of product does not match the product added to the cart", textOfItem.contains(titleOfProduct));
+        Assert.assertTrue("Price of product does not match the product added to the cart", textOfItem.contains(priceOfProduct));
     }
 
     @Given("User on filter page")
@@ -173,6 +169,25 @@ public class MyStepdefs {
             assertTrue(priceOfProduct >= oldPrice);
             oldPrice = priceOfProduct;
         }
+    }
+
+
+    @Then("Check that at least {string} have {string}")
+    public void checkThatAtLeastNumberOfProductsHaveExpectedPrice(final String numberOfProduct, final String expectedPrice) {
+        List<String> prices = homePage.getListOfPrice();
+        int expPrice = 0;
+        for (String p : prices
+        ) {
+            if (p.contains(expectedPrice)) expPrice++;
+        }
+        int number = Integer.parseInt(numberOfProduct);
+        Assert.assertTrue("Least number of product does not have expected price", expPrice >= number);
+    }
+
+    @When("Get {string} on Product Page")
+    public void getNumberOfProduct(final String numberOfProduct) {
+        int number = Integer.parseInt(numberOfProduct);
+        homePage.clickOnNumberOfProduct(number);
     }
 }
 

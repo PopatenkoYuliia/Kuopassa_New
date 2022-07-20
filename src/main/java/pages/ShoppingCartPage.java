@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
+
 public class ShoppingCartPage extends BasePage {
 
     @FindBy(xpath = "//*[@id='box-checkout-cart']/div")
@@ -14,7 +16,7 @@ public class ShoppingCartPage extends BasePage {
     }
 
     public String getTextItem() {
-        waitVisibilityOfElement(60, tableResponsive);
+        waitVisibilityOfElement(Duration.ofSeconds(60), tableResponsive);
         String itemText = tableResponsive.getText();
         return itemText;
     }

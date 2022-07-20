@@ -3,7 +3,7 @@ Feature: Kuopassa functionally
   I want to test all main site functionality
   So that I can be sure that site works correctly
 
-
+  @Smoke @Regression
   Scenario: Check Customer Service Page
     Given User opens home page
     When User click on link Customer Service
@@ -20,19 +20,27 @@ Feature: Kuopassa functionally
       | 1                   |
       | 2                   |
 
-  Scenario: Check quantity of product and price
+  @Regression
+  Scenario Outline: Check quantity of product and price
     Given User opens home page
     When Get product list
     And Check quantity equals expected
-    Then Check that minimal quantity of product has expected price
+    Then Check that at least '<number of products>' have '<expected price>'
+    Examples:
+      | number of products | expected price |
+      | 2                  | 20.00          |
 
-  Scenario: Check availability purchased goods in cart
+
+  Scenario Outline: Check availability purchased goods in cart
     Given User opens home page
-    When Get first product
-    And Get title and price first product
+    When Get '<number of product>' on Product Page
+    And Get title and price of product
     And Add product to cart
     And Open cart
     Then Check this product in the cart
+    Examples:
+      | number of product |
+      | 1                 |
 
   Scenario: Check filter of product by price new
     Given User on filter page

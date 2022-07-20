@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,9 +94,10 @@ public class HomePage extends BasePage {
         return first;
     }
 
-    public void clickOnFirst() {
-        WebElement first = productList.get(0);
-        first.click();
+    public void clickOnNumberOfProduct(int number) {
+        WebElement desiredElement = productList.get(number - 1);
+        desiredElement.click();
+        waitForPageLoadComplete(Duration.ofSeconds(60));
     }
 
     public String getTitle() {

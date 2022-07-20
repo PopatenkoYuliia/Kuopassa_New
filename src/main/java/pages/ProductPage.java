@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
+
 public class ProductPage extends BasePage {
     @FindBy(xpath = "//input[@name='quantity']")
     private WebElement inputQuantityOfProduct;
@@ -39,8 +41,8 @@ public class ProductPage extends BasePage {
     }
 
     public String getShoppingCartText() throws InterruptedException {
-        waitVisibilityOfElement(60, shoppingCart);
-        waitForPageLoadComplete(60);
+        waitVisibilityOfElement(Duration.ofSeconds(60), shoppingCart);
+        waitForPageLoadComplete(Duration.ofSeconds(60));
         Thread.sleep(600);
         String scText = shoppingCart.getText();
         return scText;
